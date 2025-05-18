@@ -72,25 +72,31 @@ Department - Dept_ID (PK), Dept_Name, Dept_Head, Room No.
 
 ## Relationships and Constraints:
 Book (Patient → Appointment)
+
 Cardinality: Many-to-Many Participation: Total (Every appointment must involve at least one patient)
 
 Assign (Appointment → Doctor)
+
 Cardinality: Many-to-One Participation: Total (Each appointment must be assigned to a doctor)
 
 Associate (Patient → Medical Records)
+
 Cardinality: One-to-Many Participation: Partial (A patient may or may not have medical records)
 
 Maintain (Doctor → Medical Records)
+
 Cardinality: One-to-Many Participation: Partial (Doctors maintain multiple records)
 
 Receive (Patient → Billing)
+
 Cardinality: One-to-Many Participation: Partial (Patients may have multiple billing records)
 
 Specialization (Doctor → Department)
+
 Cardinality: Many-to-One Participation: Partial (Doctor specializes in a department)
 
 ## Extension (Prerequisite / Billing):
-- Explain how you modeled prerequisites or billing.
+Billing was modeled by connecting Patient to Billing through the "Receive" relationship, where billing entries are generated for each patient based on services received. The Billing entity includes attributes like Billing_ID, Amount, Billing Date, and Payment Status to track financial transactions independently but linked via Patient_ID.
 
 ## Design Choices:
 
