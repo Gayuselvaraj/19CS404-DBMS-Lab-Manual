@@ -31,6 +31,7 @@ END;
 - Write an *AFTER INSERT* trigger on the employees table to log the new data into the employee_log table.
 
 #### Query:
+```
  SQL
 CREATE TABLE employee3 
 (
@@ -57,14 +58,14 @@ DELIMITER $$
     BEGIN
 		INSERT INTO employee_log (employee_id, first_name, dept_no, salary) VALUES (NEW.employee_id, NEW.first_name, NEW.dept_no, NEW.salary);
 	END$$
-    
+
 DELIMITER ;
 
 INSERT INTO employee3 (employee_id, first_name, dept_no, salary) VALUES (1, 'Alice', 10, 5000.00);
     
 SELECT * FROM employee_log;
 
-
+```
 ### Expected Output:
 - A new entry is added to the employee_log table each time a new record is inserted into the employees table.
 
@@ -80,6 +81,7 @@ SELECT * FROM employee_log;
 - Use RAISE_APPLICATION_ERROR to prevent deletion and issue a custom error message.
 
 #### Query:
+```
  SQL
 CREATE TABLE sensitive_data 
 (
@@ -95,12 +97,13 @@ DELIMITER $$
 			SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'ERROR: Deletion not allowed on this table.';
 		END$$
+
 DELIMITER ;
         
 INSERT INTO sensitive_data (record_id, info) VALUES (1, 'Top Secret');
 DELETE FROM sensitive_data WHERE record_id = 1;
 
-
+```
 ### Expected Output:
 - If an attempt is made to delete a record from sensitive_data, an error message is raised, e.g., ERROR: Deletion not allowed on this table.
 
@@ -117,6 +120,7 @@ DELETE FROM sensitive_data WHERE record_id = 1;
 - Write a *BEFORE UPDATE* trigger on the products table to set the last_modified column to the current timestamp whenever an update occurs.
 
 #### Query:
+```
  SQL
 CREATE TABLE products 
 (
@@ -128,6 +132,7 @@ CREATE TABLE products
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_modified TIMESTAMP
 );
+
 DELIMITER $$
 
     CREATE TRIGGER trg_set_last_modified
@@ -151,7 +156,7 @@ UPDATE products SET stock_quantity = 40 WHERE product_id = 3;
 
 SELECT product_id, name, created_at, last_modified FROM products;
 
-
+```
 
 ### Expected Output:
 - The last_modified column in the products table is updated automatically to the current date and time when any record is updated.
@@ -174,6 +179,7 @@ SELECT product_id, name, created_at, last_modified FROM products;
 - Write an *AFTER UPDATE* trigger on the customer_orders table to increment the counter in the audit_log table every time a record is updated.
 
 #### Query:
+```
  SQL
 CREATE TABLE customer_orders 
 (
@@ -209,7 +215,7 @@ UPDATE customer_orders SET order_amount = 400.00 WHERE order_id = 101;
     
 SELECT * FROM audit_log;
 
-
+```
 ### Expected Output:
 - The audit_log table will maintain a count of how many updates have been made to the customer_orders table.
 
@@ -231,6 +237,7 @@ SELECT * FROM audit_log;
 - If the condition is not met, raise an error to prevent the insert.
 
 #### Query:
+```
  SQL
 CREATE TABLE employee6 
 (
@@ -256,7 +263,7 @@ DELIMITER ;
 
 INSERT INTO employee6(employee_id, first_name, dept_no, salary) VALUES (1, 'Bob', 20, 299.00);
 
-
+```
 ### Expected Output:
 - If the inserted salary in the employees table is below the condition (e.g., salary < 3000), the insert operation is blocked, and an error message is raised, such as: ERROR: Salary below minimum threshold.
 
